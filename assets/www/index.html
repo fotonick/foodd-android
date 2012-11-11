@@ -24,25 +24,170 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.min.css" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+        <title>Where's Lunch?</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Where's Lunch?</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Loading Deliciousness</p>
-                <p class="event received">Click the All-Knowing Tomato</p>
-            </div>
-            <div id="preferences">
-                <p class="preference">user_id = <span id="prefs:user_id"></span></p>
-                <p class="preference">distance = <span id="prefs:distance"></span></p>
-                <p class="preference">explore = <span id="prefs:user_id"></span></p>
-                <p class="preference">yelp_rate_min = <span id="prefs:yelp_rate_min"></span></p>
-                <p class="preference">personal_rate_min = <span id="prefs:personal_rate_min"></span></p>
-                <p class="preference">max_cost = <span id="prefs:max_cost"></span></p>
-                <p class="preference">min_wait_repeat = <span id="prefs:min_wait_repeat"></span></p>
-            </div>
-        </div>
+        <div data-role="page" id="one">
+
+            <div data-role="header">
+                <h1>Where's Lunch?</h1>
+            </div><!-- /header -->
+
+            <div data-role="content">
+
+                <div class="app">
+                    <div id="deviceready" class="blink">
+                        <p class="event listening">Loading Deliciousness</p>
+                        <p class="event received">Click the All-Knowing Tomato</p>
+                    </div>
+
+
+                    <div>
+                        <p><a href="#settings" data-role="button">Settings</a></p>
+                        <p><a href="#preferences" data-role="button">Preferences</a></p>  
+                        <p><a href="#groups" data-role="button">Manage Groups</a></p>  
+
+                        <p><a href="#thanks"data-role="button" data-rel="dialog" data-transition="pop">Thank the 'mato!</a></p>
+                    </div>
+                    <div id="preferences">
+                        <p class="preference">user_id = <span id="prefs:user_id"></span></p>
+                        <p class="preference">distance = <span id="prefs:distance"></span></p>
+                        <p class="preference">explore = <span id="prefs:user_id"></span></p>
+                        <p class="preference">yelp_rate_min = <span id="prefs:yelp_rate_min"></span></p>
+                        <p class="preference">personal_rate_min = <span id="prefs:personal_rate_min"></span></p>
+                        <p class="preference">max_cost = <span id="prefs:max_cost"></span></p>
+                        <p class="preference">min_wait_repeat = <span id="prefs:min_wait_repeat"></span></p>
+                    </div>
+                </div>
+            </div><!-- /content -->
+        </div><!-- /page one -->
+
+        <!-- Start of second page: #settings-->
+        <div data-role="page" id="settings" data-theme="a">
+
+            <div data-role="header">
+                <h1>Settings</h1>
+            </div><!-- /header -->
+
+            <div data-role="content" data-theme="a">  
+
+                <div data-role="fieldcontain">
+                    <label for="slider">Chance of Exploring a New Restaurant:</label>
+                    <input type="range" name="slider" id="slider" value="0" min="0" max="100"  />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="slider">Minimum Yelp stars:</label>
+                    <input type="range" name="slider" id="slider" value="0" min="0" max="5"  />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="slider">Minimum Personal Rating:</label>
+                    <input type="range" name="slider" id="slider" value="0" min="0" max="5"  />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="slider">Maximum Distance (miles):</label>
+                    <input type="range" name="slider" id="slider" value="0" min="0" max="100"  />
+                </div>
+
+                <div data-role="fieldcontain">
+                    <label for="slider">Minimum days between repeats:</label>
+                    <input type="range" name="slider" id="slider" value="0" min="0" max="365"  />
+                </div>
+
+                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Our Benevolent Tomato!</a></p>  
+            </div><!-- /content -->
+        </div><!-- /page two -->
+
+
+
+        <!-- Start of second page: #preferences -->
+        <div data-role="page" id="preferences" data-theme="a">
+
+            <div data-role="header">
+                <h1>Preferences</h1>
+            </div><!-- /header -->
+            <div data-role="content" data-theme="a">  
+                <div  data-role="fieldcontain">
+                    <fieldset data-role="linktoaccts">
+                        <legend>Link to Accounts</legend>
+                        <input type="checkbox" name="checkbox-1a" id="checkbox-1a" class="custom" />
+                        <label for="checkbox-1a">Yelp</label>
+
+                        <input type="checkbox" name="checkbox-2a" id="checkbox-2a" class="custom" />
+                        <label for="checkbox-2a">Facebook</label>
+
+                        <input type="checkbox" name="checkbox-3a" id="checkbox-3a" class="custom" />
+                        <label for="checkbox-3a">Foursquare</label>
+
+                        <input type="checkbox" name="checkbox-4a" id="checkbox-4a" class="custom" />
+                        <label for="checkbox-4a">Phone Contacts</label>
+                    </fieldset>
+                </div>
+
+                <div  data-role="fieldcontain">
+                    <fieldset data-role="frienddetection">
+                        <legend>Enable Friend Detection via</legend>
+                        <input type="checkbox" name="checkbox-1a" id="checkbox-1a" class="custom" />
+                        <label for="checkbox-1a">Geolocation</label>
+
+                        <input type="checkbox" name="checkbox-2a" id="checkbox-2a" class="custom" />
+                        <label for="checkbox-2a">Bump</label>
+
+                        <input type="checkbox" name="checkbox-3a" id="checkbox-3a" class="custom" />
+                        <label for="checkbox-3a">NFC</label>
+
+                    </fieldset>
+                </div>
+
+                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Our Benevolent Tomato!</a></p>  
+            </div><!-- /content -->
+        </div><!-- /page two -->
+
+        <!-- Start of second page: #groups -->
+        <div data-role="page" id="groups" data-theme="a">
+            <div data-role="header">
+                <h1>Groups</h1>
+            </div><!-- /header -->
+
+            <div data-role="content" data-theme="a">
+                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Our Benevolent Tomato!</a></p>  
+            </div><!-- /content -->
+        </div><!-- /page two -->
+
+        <!-- Start of second page: #thanks -->
+        <div data-role="page" id="thanks" data-theme="a">
+
+            <div data-role="header">
+                <h1>Like this app?</h1>
+            </div><!-- /header -->
+
+            <div data-role="content" data-theme="a">  
+                <p>This app was started at Cereal Hack 2012 to solve some lunch decision woes.  If you'd like to thank us for our work, please donate money to charity so that fewer people will have to be hungry.  Here's a few you can check out.  Thanks!</p>
+                <a href="http://fh.org/" data-role="button">Food for the Hungry</a>
+                <a href="http://www.oxfam.org/" data-role="button">Oxfam</a>
+                <a href="http://www.bread.org/institute/" data-role="button">Bread for the World</a>
+
+                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Our Benevolent Tomato!</a></p>  
+
+          </div><!-- /content -->
+        </div><!-- /page two -->
+
+        <!-- Start of third page: #popup -->
+        <div data-role="page" id="popup">
+
+          <div data-role="header" data-theme="e">
+              <h1>Dialog</h1>
+          </div><!-- /header -->
+
+          <div data-role="content" data-theme="d">  
+              <h2>Popup</h2>
+              <p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>    
+              <p><a href="#one" data-rel="back" data-role="button" data-inline="true" data-icon="back">To Tomato!</a></p>  
+          </div><!-- /content -->
+        </div><!-- /page popup -->
+
         <script type="text/javascript" src="cordova-2.2.0.js"></script>
         <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.2.0.min.js"></script>
