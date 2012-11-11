@@ -99,5 +99,20 @@ var app = {
             }
         )
 
+    },
+    getLocation: function() {
+        var onSuccess = function(position) {
+            pref_div = $("#preferences");
+            pref_div.innerHTML = 'Latitude: '          + position.coords.latitude          + '\n' +
+                        'Longitude: '         + position.coords.longitude         + '\n' +
+                        'Timestamp: '         + position.timestamp                + '\n';
+        };
+
+        function onError(error) {
+            console.log('code: '    + error.code    + '\n' +
+                        'message: ' + error.message + '\n');
+        }
+
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
 };
