@@ -45,5 +45,59 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+    savePreferences: function() {
+        // get fields from document
+        var db = window.openDatabase("foodd_prefs", "1.0", "FoodD Preferences DB", 1024 * 1024);
+        
+        db.transaction(
+            // Callback that executes SQL
+            function (tx) {
+                tx.executeSql('DROP TABLE IF EXISTS user_prefs;');
+                tx.executeSql('CREATE TABLE user_prefs (user_id INTEGER PRIMARY KEY, distance INTEGER, explore INTEGER, yelp_rate_min INTEGER, personal_rate_min INTEGER, max_cost INTEGER, min_wait_repeat INTEGER);');
+                tx.executeSql('INSERT INTO user_prefs (user_id, distance, explore, yelp_rate_min, personal_rate_min, max_cost, min_wait_repeat) VALUES (?, ?, ?, ?, ?, ?, ?);', [0, 1, 5, 3, 2, 4, 4]);
+            },
+            // Callback to handle errors
+            function (err) {
+                console.log("Error processing SQL: " + err.code);
+            }
+        )
+    },
+    displayLoadedPreferences: function (tx, results) {
+        console.log("Preferences are:");
+        pref_div = $("#preferences");
+        prefs = results.rows.item(0);
+        for (var key in prefs) {
+            content = " " + key + ": " + prefs[key];
+            prefElem = document.createElement("p");
+            prefElem.innerHTML = content;
+            pref_div.append(prefElem);
+            console.log(content);
+        }
+    },
+    loadPreferences: function() {
+        console.log("calling loadPreferences");
+        var db = window.openDatabase("foodd_prefs", "1.0", "FoodD Preferences DB", 1024 * 1024);
+
+        user_id = 0;  // TODO: fetch from document
+        console.log("Fetching preferences for user " + user_id);
+        db.transaction(
+            // Callback that executes SQL
+            function(tx) {
+                tx.executeSql('SELECT * FROM user_prefs WHERE user_id=?', [user_id],
+                    // Callback on success; should manipulate document
+                    app.displayLoadedPreferences,
+                    // Callback to handle errors
+                    function (err) {
+                        console.log("Error in executeSql: " + err.code);
+                    }
+                );
+            },
+            // Callback to handle errors
+            function (err) {
+                console.log("Error processing transaction: " + err.code);
+            }
+        )
+
     }
 };
