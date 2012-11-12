@@ -43,8 +43,8 @@
 
 
                     <div>
-                        <p><a href="#settings" data-role="button">Settings</a></p>
-                        <p><a href="#preferences" data-role="button">Preferences</a></p>  
+                        <p><a href="#preferences" data-role="button" onclick="app.loadPreferences">Preferences</a></p>
+                        <p><a href="#settings" data-role="button">Settings</a></p>  
                         <p><a href="#groups" data-role="button">Manage Groups</a></p>  
 
                         <p><a href="#thanks"data-role="button" data-rel="dialog" data-transition="pop">Thank the 'mato!</a></p>
@@ -93,11 +93,11 @@
 
 
 
-        <!-- Start of second page: #preferences -->
-        <div data-role="page" id="preferences" data-theme="a">
+        <!-- Start of second page: #settings -->
+        <div data-role="page" id="settings" data-theme="a">
 
             <div data-role="header">
-                <h1>Preferences</h1>
+                <h1>Settings</h1>
             </div><!-- /header -->
             <div data-role="content" data-theme="a">  
                 <div  data-role="fieldcontain">
