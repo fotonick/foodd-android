@@ -71,27 +71,24 @@ var app = {
             }
         )
     },
-    displayLoadedPreferences: function (tx, results) {
-        console.log("Preferences are:");
-        prefs = results.rows.item(0);
-        for (var key in prefs) {
-            $("#slider_" + key).val(prefs[key]).slider("refresh");
-            console.log(" " + key + ": " + prefs[key]);
-        }
-
-    },
     loadPreferences: function() {
         console.log("calling loadPreferences");
         var db = window.openDatabase("foodd_prefs", "1.0", "FoodD Preferences DB", 1024 * 1024);
 
-        user_id = 0;  // TODO: fetch from document
+        user_id = 0;
         console.log("Fetching preferences for user " + user_id);
         db.transaction(
             // Callback that executes SQL
             function(tx) {
                 tx.executeSql('SELECT * FROM user_prefs WHERE user_id=?', [user_id],
-                    // Callback on success; should manipulate document
-                    app.displayLoadedPreferences,
+                    // Callback on success: adjust sliders
+                    function (tx, results) {
+                        console.log("Preferences are:");
+                        prefs = results.rows.item(0);
+                        for (var key in prefs) {
+                            $("#slider_" + key).val(prefs[key]).slider("refresh");
+                            console.log(" " + key + ": " + prefs[key]);
+                    },
                     // Callback to handle errors
                     function (err) {
                         console.log("Error in executeSql: " + err.code);
@@ -106,10 +103,9 @@ var app = {
     },
     getLocation: function() {
         var onSuccess = function(position) {
-            pref_div = $("#preferences");
-            pref_div.innerHTML = 'Latitude: '          + position.coords.latitude          + '\n' +
+            console.log('Latitude: '          + position.coords.latitude          + '\n' +
                         'Longitude: '         + position.coords.longitude         + '\n' +
-                        'Timestamp: '         + position.timestamp                + '\n';
+                        'Timestamp: '         + position.timestamp                + '\n');
         };
 
         function onError(error) {
