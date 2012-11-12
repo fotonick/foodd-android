@@ -53,9 +53,17 @@ var app = {
         db.transaction(
             // Callback that executes SQL
             function (tx) {
+                prefs = [0,  // user_id
+                         $("#slider_distance").val(),
+                         $("#slider_explore").val(),
+                         $("#slider_yelp_rank_min").val(),
+                         $("#slider_personal_rank_min").val(),
+                         $("#slider_max_cost").val(),
+                         $("#slider_min_wait_repeat").val()];
+                console.log(prefs);
                 tx.executeSql('DROP TABLE IF EXISTS user_prefs;');
-                tx.executeSql('CREATE TABLE user_prefs (user_id INTEGER PRIMARY KEY, distance INTEGER, explore INTEGER, yelp_rate_min INTEGER, personal_rate_min INTEGER, max_cost INTEGER, min_wait_repeat INTEGER);');
-                tx.executeSql('INSERT INTO user_prefs (user_id, distance, explore, yelp_rate_min, personal_rate_min, max_cost, min_wait_repeat) VALUES (?, ?, ?, ?, ?, ?, ?);', [0, 1, 5, 3, 2, 4, 4]);
+                tx.executeSql('CREATE TABLE user_prefs (user_id INTEGER PRIMARY KEY, distance INTEGER, explore INTEGER, yelp_rank_min INTEGER, personal_rank_min INTEGER, max_cost INTEGER, min_wait_repeat INTEGER);');
+                tx.executeSql('INSERT INTO user_prefs (user_id, distance, explore, yelp_rank_min, personal_rank_min, max_cost, min_wait_repeat) VALUES (?, ?, ?, ?, ?, ?, ?);', prefs);
             },
             // Callback to handle errors
             function (err) {
@@ -65,15 +73,12 @@ var app = {
     },
     displayLoadedPreferences: function (tx, results) {
         console.log("Preferences are:");
-        pref_div = $("#preferences");
         prefs = results.rows.item(0);
         for (var key in prefs) {
-            content = " " + key + ": " + prefs[key];
-            prefElem = document.createElement("p");
-            prefElem.innerHTML = content;
-            pref_div.append(prefElem);
-            console.log(content);
+            $("#slider_" + key).val(prefs[key]).slider("refresh");
+            console.log(" " + key + ": " + prefs[key]);
         }
+
     },
     loadPreferences: function() {
         console.log("calling loadPreferences");
@@ -98,7 +103,6 @@ var app = {
                 console.log("Error processing transaction: " + err.code);
             }
         )
-
     },
     getLocation: function() {
         var onSuccess = function(position) {
