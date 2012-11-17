@@ -41,7 +41,7 @@
                     </div>
                     <div>
                         <p><a href="#preferences" data-role="button" onclick="app.loadPreferences();">Preferences</a></p>
-                        <p><a href="#settings" data-role="button">Settings</a></p>
+                        <p><a href="#settings" data-role="button" onclick="app.loadSettings();">Settings</a></p>
                         <p><a href="#groups" data-role="button">Manage Groups</a></p>
                         <p><a href="#thanks"data-role="button" data-rel="dialog" data-transition="pop">Thank the 'mato!</a></p>
                     </div>
@@ -86,6 +86,7 @@
                 <div data-role="fieldcontain">
                     <label for="slider">Max dollar signs</label>
                     <input type="range" name="slider" id="slider_max_cost" value="0" min="0" max="4"  />
+                </div>
 
                 <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b" onclick="app.savePreferences();">Back to Our Benevolent Tomato!</a></p>  
             </div><!-- /content -->
@@ -99,40 +100,40 @@
             <div data-role="header">
                 <h1>Settings</h1>
             </div><!-- /header -->
-            <div data-role="content" data-theme="a">  
-                <div  data-role="fieldcontain">
+            <div data-role="content" data-theme="a">
+                <div data-role="fieldcontain">
                     <fieldset data-role="linktoaccts">
                         <legend>Link to Accounts</legend>
-                        <input type="checkbox" name="checkbox-1a" id="checkbox-1a" class="custom" />
+                        <input type="checkbox" name="checkbox-1a" id="checkbox_yelp" class="custom" />
                         <label for="checkbox-1a">Yelp</label>
 
-                        <input type="checkbox" name="checkbox-2a" id="checkbox-2a" class="custom" />
+                        <input type="checkbox" name="checkbox-2a" id="checkbox_facebook" class="custom" />
                         <label for="checkbox-2a">Facebook</label>
 
-                        <input type="checkbox" name="checkbox-3a" id="checkbox-3a" class="custom" />
+                        <input type="checkbox" name="checkbox-3a" id="checkbox_foursquare" class="custom" />
                         <label for="checkbox-3a">Foursquare</label>
 
-                        <input type="checkbox" name="checkbox-4a" id="checkbox-4a" class="custom" />
+                        <input type="checkbox" name="checkbox-4a" id="checkbox_phone" class="custom" />
                         <label for="checkbox-4a">Phone Contacts</label>
                     </fieldset>
                 </div>
 
-                <div  data-role="fieldcontain">
+                <div data-role="fieldcontain">
                     <fieldset data-role="frienddetection">
                         <legend>Enable Friend Detection via</legend>
-                        <input type="checkbox" name="checkbox-1a" id="checkbox-1a" class="custom" />
+                        <input type="checkbox" name="checkbox-1a" id="checkbox_geolocation" class="custom" />
                         <label for="checkbox-1a">Geolocation</label>
 
-                        <input type="checkbox" name="checkbox-2a" id="checkbox-2a" class="custom" />
+                        <input type="checkbox" name="checkbox-2a" id="checkbox_bump" class="custom" />
                         <label for="checkbox-2a">Bump</label>
 
-                        <input type="checkbox" name="checkbox-3a" id="checkbox-3a" class="custom" />
+                        <input type="checkbox" name="checkbox-3a" id="checkbox_nfc" class="custom" />
                         <label for="checkbox-3a">NFC</label>
 
                     </fieldset>
                 </div>
 
-                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Our Benevolent Tomato!</a></p>  
+                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b" onclick="app.saveSettings();">Back to Our Benevolent Tomato!</a></p>  
             </div><!-- /content -->
         </div><!-- /page two -->
 

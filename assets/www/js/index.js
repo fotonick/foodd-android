@@ -20,6 +20,8 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+        app.initSettings();
+        app.initPreferences();
     },
     // Bind Event Listeners
     //
@@ -46,9 +48,29 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
+
+    // Preferences
+    initPreferences: function() {
+        console.log("called initSettings");
+        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
+        db.transaction(
+            function (tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS user_prefs (user_id INTEGER PRIMARY KEY, distance INTEGER, explore INTEGER, yelp_rank_min INTEGER, personal_rank_min INTEGER, max_cost INTEGER, min_wait_repeat INTEGER);');
+                tx.executeSql('SELECT * FROM user_prefs', [], function (tx, results) {
+                    if (results.rows.length == 0) {
+                        tx.executeSql('INSERT INTO user_prefs VALUES (0, 0, 0, 0, 0, 0, 0)');
+                    }
+                }),
+                // Callback to handle errors
+                function (err) {
+                    console.log("Error processing SQL: " + err.code);
+                }
+            }
+        );
+    },
     savePreferences: function() {
         // get fields from document
-        var db = window.openDatabase("foodd_prefs", "1.0", "FoodD Preferences DB", 1024 * 1024);
+        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
         
         db.transaction(
             // Callback that executes SQL
@@ -61,9 +83,7 @@ var app = {
                          $("#slider_max_cost").val(),
                          $("#slider_min_wait_repeat").val()];
                 console.log(prefs);
-                tx.executeSql('DROP TABLE IF EXISTS user_prefs;');
-                tx.executeSql('CREATE TABLE user_prefs (user_id INTEGER PRIMARY KEY, distance INTEGER, explore INTEGER, yelp_rank_min INTEGER, personal_rank_min INTEGER, max_cost INTEGER, min_wait_repeat INTEGER);');
-                tx.executeSql('INSERT INTO user_prefs (user_id, distance, explore, yelp_rank_min, personal_rank_min, max_cost, min_wait_repeat) VALUES (?, ?, ?, ?, ?, ?, ?);', prefs);
+                tx.executeSql('INSERT OR REPLACE INTO user_prefs (user_id, distance, explore, yelp_rank_min, personal_rank_min, max_cost, min_wait_repeat) VALUES (?, ?, ?, ?, ?, ?, ?);', prefs);
             },
             // Callback to handle errors
             function (err) {
@@ -73,7 +93,7 @@ var app = {
     },
     loadPreferences: function() {
         console.log("calling loadPreferences");
-        var db = window.openDatabase("foodd_prefs", "1.0", "FoodD Preferences DB", 1024 * 1024);
+        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
 
         user_id = 0;
         console.log("Fetching preferences for user " + user_id);
@@ -88,6 +108,7 @@ var app = {
                         for (var key in prefs) {
                             $("#slider_" + key).val(prefs[key]).slider("refresh");
                             console.log(" " + key + ": " + prefs[key]);
+                        }
                     },
                     // Callback to handle errors
                     function (err) {
@@ -101,6 +122,82 @@ var app = {
             }
         )
     },
+
+    // Settings
+    initSettings: function() {
+        console.log("called initSettings");
+        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
+        db.transaction(
+            function (tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS settings (yelp INTEGER, facebook INTEGER, foursquare INTEGER, phone INTEGER, geolocation INTEGER, bump INTEGER, nfc INTEGER);');
+                tx.executeSql('SELECT * FROM settings', [], function (tx, results) {
+                    if (results.rows.length == 0) {
+                        tx.executeSql('INSERT INTO settings VALUES (0, 0, 0, 0, 0, 0, 0)');
+                    }
+                }),
+                // Callback to handle errors
+                function (err) {
+                    console.log("Error processing SQL: " + err.code);
+                }
+            }
+        );
+    },
+    saveSettings: function() {
+        // get fields from document
+        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
+        
+        db.transaction(
+            // Callback that executes SQL
+            function (tx) {
+                settings = [
+                         $("#checkbox_yelp").attr("checked") == "checked",
+                         $("#checkbox_facebook").attr("checked") == "checked",
+                         $("#checkbox_foursquare").attr("checked") == "checked",
+                         $("#checkbox_phone").attr("checked") == "checked",
+                         $("#checkbox_geolocation").attr("checked") == "checked",
+                         $("#checkbox_bump").attr("checked") == "checked",
+                         $("#checkbox_nfc").attr("checked") == "checked"];
+                console.log(settings);
+                tx.executeSql('INSERT OR REPLACE INTO settings (yelp, facebook, foursquare, phone, geolocation, bump, nfc) VALUES (?, ?, ?, ?, ?, ?, ?);', settings);
+            },
+            // Callback to handle errors
+            function (err) {
+                console.log("Error processing SQL: " + err.code);
+            }
+        )
+    },
+    loadSettings: function() {
+        console.log("calling loadSettings");
+        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
+
+        console.log("Fetching settings");
+        db.transaction(
+            // Callback that executes SQL
+            function(tx) {
+                tx.executeSql('SELECT * FROM settings', [],
+                    // Callback on success: adjust sliders
+                    function (tx, results) {
+                        console.log("Settings are:");
+                        settings = results.rows.item(0);
+                        for (var key in settings) {
+                            $("#checkbox_" + key).attr("checked", settings[key]);
+                            console.log(" " + key + ": " + settings[key]);
+                        }
+                    },
+                    // Callback to handle errors
+                    function (err) {
+                        console.log("Error in executeSql: " + err.code);
+                    }
+                );
+            },
+            // Callback to handle errors
+            function (err) {
+                console.log("Error processing transaction: " + err.code);
+            }
+        )
+    },
+
+    // Geolocation
     getLocation: function() {
         var onSuccess = function(position) {
             console.log('Latitude: '          + position.coords.latitude          + '\n' +
@@ -115,6 +212,8 @@ var app = {
 
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
     },
+
+    // Yelp results
     getYelpResults: function() {
         // Taken quite directly from:
         // https://github.com/Yelp/yelp-api/blob/master/v2/js/search.html
