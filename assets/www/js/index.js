@@ -20,7 +20,6 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-        app.initSettings();
         app.initPreferences();
     },
     // Bind Event Listeners
@@ -52,21 +51,7 @@ var app = {
     // Preferences
     initPreferences: function() {
         console.log("called initSettings");
-        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
-        db.transaction(
-            function (tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS user_prefs (user_id INTEGER PRIMARY KEY, distance INTEGER, explore INTEGER, yelp_rank_min INTEGER, personal_rank_min INTEGER, max_cost INTEGER, min_wait_repeat INTEGER);');
-                tx.executeSql('SELECT * FROM user_prefs', [], function (tx, results) {
-                    if (results.rows.length == 0) {
-                        tx.executeSql('INSERT INTO user_prefs VALUES (0, 0, 0, 0, 0, 0, 0)');
-                    }
-                }),
-                // Callback to handle errors
-                function (err) {
-                    console.log("Error processing SQL: " + err.code);
-                }
-            }
-        );
+        
     },
     savePreferences: function() {
         // get fields from document
@@ -124,80 +109,24 @@ var app = {
     },
 
     // Settings
-    initSettings: function() {
-        console.log("called initSettings");
-        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
-        db.transaction(
-            function (tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS settings (yelp INTEGER, facebook INTEGER, foursquare INTEGER, phone INTEGER, geolocation INTEGER, bump INTEGER, nfc INTEGER);');
-                tx.executeSql('SELECT * FROM settings', [], function (tx, results) {
-                    if (results.rows.length == 0) {
-                        tx.executeSql('INSERT INTO settings VALUES (0, 0, 0, 0, 0, 0, 0)');
-                    }
-                }),
-                // Callback to handle errors
-                function (err) {
-                    console.log("Error processing SQL: " + err.code);
-                }
-            }
-        );
+    displaySettings: function (settings) {
+        console.log(settings);
+        for (var key in settings) {
+            console.log(" " + key + ": " + settings[key]);
+            $("#checkbox_" + key).attr("checked", settings[key]).checkboxradio("refresh");
+        }
     },
-    saveSettings: function() {
-        // get fields from document
-        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
-        
-        db.transaction(
-            // Callback that executes SQL
-            function (tx) {
-                settings = [
-                         $("#checkbox_yelp").attr("checked") == "checked",
-                         $("#checkbox_facebook").attr("checked") == "checked",
-                         $("#checkbox_foursquare").attr("checked") == "checked",
-                         $("#checkbox_phone").attr("checked") == "checked",
-                         $("#checkbox_geolocation").attr("checked") == "checked",
-                         $("#checkbox_bump").attr("checked") == "checked",
-                         $("#checkbox_nfc").attr("checked") == "checked"];
-                console.log(settings);
-                tx.executeSql('INSERT OR REPLACE INTO settings (yelp, facebook, foursquare, phone, geolocation, bump, nfc) VALUES (?, ?, ?, ?, ?, ?, ?);', settings);
-            },
-            // Callback to handle errors
-            function (err) {
-                console.log("Error processing SQL: " + err.code);
-            }
-        )
-    },
-    loadSettings: function() {
-        console.log("calling loadSettings");
-        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
+    // Need to bind to an appropriate load or ready event: onclick="app.displaySettings(JSON.parse(window.localStorage.getItem('settings')));"
 
-        console.log("Fetching settings");
-        db.transaction(
-            // Callback that executes SQL
-            function(tx) {
-                tx.executeSql('SELECT * FROM settings', [],
-                    // Callback on success: adjust sliders
-                    function (tx, results) {
-                        console.log("Settings are:");
-                        settings = results.rows.item(0);
-                        for (var key in settings) {
-                            if(settings[key]) {
-                                $("#checkbox_" + key).attr("checked", true).checkboxradio("refresh");
-                            } else {
-                                $("#checkbox_" + key).attr("checked", false).checkboxradio("refresh");
-                            }
-                            console.log(" " + key + ": " + settings[key]);
-                        }
-                    },
-                    // Callback to handle errors
-                    function (err) {
-                        console.log("Error in executeSql: " + err.code);
-                    }
-                );
-            },
-            // Callback to handle errors
-            function (err) {
-                console.log("Error processing transaction: " + err.code);
-            }
+    // Utility
+    formToKeyVal: function (form) {
+        return jQuery.extend.apply(null,
+            form.find('input').map(function() {
+                var elm = $(this);
+                obj = {};
+                obj[elm.attr('name').slice("checkbox_".length)] = elm.attr('checked')=='checked';
+                return obj;
+            })
         )
     },
 

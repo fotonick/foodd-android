@@ -41,7 +41,7 @@
                     </div>
                     <div>
                         <p><a href="#preferences" data-role="button" onclick="app.loadPreferences();">Preferences</a></p>
-                        <p><a href="#settings" data-role="button" onclick="app.loadSettings();">Settings</a></p>
+                        <p><a href="#settings" data-role="button">Settings</a></p>
                         <p><a href="#groups" data-role="button">Manage Groups</a></p>
                         <p><a href="#thanks"data-role="button" data-rel="dialog" data-transition="pop">Thank the 'mato!</a></p>
                     </div>
@@ -101,39 +101,41 @@
                 <h1>Settings</h1>
             </div><!-- /header -->
             <div data-role="content" data-theme="a">
-                <div data-role="fieldcontain">
-                    <fieldset data-role="linktoaccts">
-                        <legend>Link to Accounts</legend>
-                        <input type="checkbox" name="checkbox-1a" id="checkbox_yelp" class="custom" />
-                        <label for="checkbox_yelp">Yelp</label>
+                <form id="settings_form">
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="linktoaccts">
+                            <legend>Link to Accounts</legend>
+                            <input type="checkbox" name="checkbox_yelp" id="checkbox_yelp" class="custom" />
+                            <label for="checkbox_yelp">Yelp</label>
 
-                        <input type="checkbox" name="checkbox-2a" id="checkbox_facebook" class="custom" />
-                        <label for="checkbox_facebook">Facebook</label>
+                            <input type="checkbox" name="checkbox_facebook" id="checkbox_facebook" class="custom" />
+                            <label for="checkbox_facebook">Facebook</label>
 
-                        <input type="checkbox" name="checkbox-3a" id="checkbox_foursquare" class="custom" />
-                        <label for="checkbox_foursquare">Foursquare</label>
+                            <input type="checkbox" name="checkbox_foursquare" id="checkbox_foursquare" class="custom" />
+                            <label for="checkbox_foursquare">Foursquare</label>
 
-                        <input type="checkbox" name="checkbox-4a" id="checkbox_phone" class="custom" />
-                        <label for="checkbox_phone">Phone Contacts</label>
-                    </fieldset>
-                </div>
+                            <input type="checkbox" name="checkbox_phone" id="checkbox_phone" class="custom" />
+                            <label for="checkbox_phone">Phone Contacts</label>
+                        </fieldset>
+                    </div>
 
-                <div data-role="fieldcontain">
-                    <fieldset data-role="frienddetection">
-                        <legend>Enable Friend Detection via</legend>
-                        <input type="checkbox" name="checkbox-1a" id="checkbox_geolocation" class="custom" />
-                        <label for="checkbox_geolocation">Geolocation</label>
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="frienddetection">
+                            <legend>Enable Friend Detection via</legend>
+                            <input type="checkbox" name="checkbox_geolocation" id="checkbox_geolocation" class="custom" />
+                            <label for="checkbox_geolocation">Geolocation</label>
 
-                        <input type="checkbox" name="checkbox-2a" id="checkbox_bump" class="custom" />
-                        <label for="checkbox_bump">Bump</label>
+                            <input type="checkbox" name="checkbox_bump" id="checkbox_bump" class="custom" />
+                            <label for="checkbox_bump">Bump</label>
 
-                        <input type="checkbox" name="checkbox-3a" id="checkbox_nfc" class="custom" />
-                        <label for="checkbox_nfc">NFC</label>
+                            <input type="checkbox" name="checkbox_nfc" id="checkbox_nfc" class="custom" />
+                            <label for="checkbox_nfc">NFC</label>
 
-                    </fieldset>
-                </div>
+                        </fieldset>
+                    </div>
+                </form>
 
-                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b" onclick="app.saveSettings();">Back to Our Benevolent Tomato!</a></p>  
+                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b" onclick="window.localStorage.setItem('settings', JSON.stringify(app.formToKeyVal($('#settings_form')))); debugger;">Back to Our Benevolent Tomato!</a></p>
             </div><!-- /content -->
         </div><!-- /page settings-->
 
