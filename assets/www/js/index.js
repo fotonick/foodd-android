@@ -180,7 +180,11 @@ var app = {
                         console.log("Settings are:");
                         settings = results.rows.item(0);
                         for (var key in settings) {
-                            $("#checkbox_" + key).attr("checked", settings[key]);
+                            if(settings[key]) {
+                                $("#checkbox_" + key).attr("checked", true).checkboxradio("refresh");
+                            } else {
+                                $("#checkbox_" + key).attr("checked", false).checkboxradio("refresh");
+                            }
                             console.log(" " + key + ": " + settings[key]);
                         }
                     },

@@ -59,32 +59,32 @@
             <div data-role="content" data-theme="a">  
 
                 <div data-role="fieldcontain">
-                    <label for="slider">Chance of Exploring a New Restaurant:</label>
+                    <label for="slider_explore">Chance of Exploring a New Restaurant:</label>
                     <input type="range" name="slider" id="slider_explore" value="0" min="0" max="100"  />
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="slider">Minimum Yelp stars:</label>
+                    <label for="slider_yelp_rank_min">Minimum Yelp stars:</label>
                     <input type="range" name="slider" id="slider_yelp_rank_min" value="0" min="0" max="5"  />
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="slider">Minimum Personal Rating:</label>
+                    <label for="slider_personal_rank_min">Minimum Personal Rating:</label>
                     <input type="range" name="slider" id="slider_personal_rank_min" value="0" min="0" max="5"  />
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="slider">Maximum Distance (miles):</label>
+                    <label for="slider_distance">Maximum Distance (miles):</label>
                     <input type="range" name="slider" id="slider_distance" value="0" min="0" max="100"  />
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="slider">Minimum days between repeats:</label>
+                    <label for="slider_min_wait_repeat">Minimum days between repeats:</label>
                     <input type="range" name="slider" id="slider_min_wait_repeat" value="0" min="0" max="365"  />
                 </div>
 
                 <div data-role="fieldcontain">
-                    <label for="slider">Max dollar signs</label>
+                    <label for="slider_max_cost">Max dollar signs</label>
                     <input type="range" name="slider" id="slider_max_cost" value="0" min="0" max="4"  />
                 </div>
 
@@ -105,16 +105,16 @@
                     <fieldset data-role="linktoaccts">
                         <legend>Link to Accounts</legend>
                         <input type="checkbox" name="checkbox-1a" id="checkbox_yelp" class="custom" />
-                        <label for="checkbox-1a">Yelp</label>
+                        <label for="checkbox_yelp">Yelp</label>
 
                         <input type="checkbox" name="checkbox-2a" id="checkbox_facebook" class="custom" />
-                        <label for="checkbox-2a">Facebook</label>
+                        <label for="checkbox_facebook">Facebook</label>
 
                         <input type="checkbox" name="checkbox-3a" id="checkbox_foursquare" class="custom" />
-                        <label for="checkbox-3a">Foursquare</label>
+                        <label for="checkbox_foursquare">Foursquare</label>
 
                         <input type="checkbox" name="checkbox-4a" id="checkbox_phone" class="custom" />
-                        <label for="checkbox-4a">Phone Contacts</label>
+                        <label for="checkbox_phone">Phone Contacts</label>
                     </fieldset>
                 </div>
 
@@ -122,20 +122,20 @@
                     <fieldset data-role="frienddetection">
                         <legend>Enable Friend Detection via</legend>
                         <input type="checkbox" name="checkbox-1a" id="checkbox_geolocation" class="custom" />
-                        <label for="checkbox-1a">Geolocation</label>
+                        <label for="checkbox_geolocation">Geolocation</label>
 
                         <input type="checkbox" name="checkbox-2a" id="checkbox_bump" class="custom" />
-                        <label for="checkbox-2a">Bump</label>
+                        <label for="checkbox_bump">Bump</label>
 
                         <input type="checkbox" name="checkbox-3a" id="checkbox_nfc" class="custom" />
-                        <label for="checkbox-3a">NFC</label>
+                        <label for="checkbox_nfc">NFC</label>
 
                     </fieldset>
                 </div>
 
                 <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b" onclick="app.saveSettings();">Back to Our Benevolent Tomato!</a></p>  
             </div><!-- /content -->
-        </div><!-- /page two -->
+        </div><!-- /page settings-->
 
         <!-- Start of second page: #groups -->
         <div data-role="page" id="groups" data-theme="a">
@@ -161,7 +161,7 @@
                 <a href="http://www.oxfam.org/" data-role="button">Oxfam</a>
                 <a href="http://www.bread.org/institute/" data-role="button">Bread for the World</a>
 
-                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Our Benevolent Tomato!</a></p>  
+                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Our Tomato!</a></p>  
 
           </div><!-- /content -->
         </div><!-- /page two -->
@@ -182,12 +182,13 @@
 
         <script type="text/javascript" src="cordova-2.2.0.js"></script>
         <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
-        <script type="text/javascript" src="js/jquery.mobile-1.2.0.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.2.0.js"></script>
         <script type="text/javascript" src="js/oauth.js"></script>
         <script type="text/javascript" src="js/sha1.js"></script>
         <script type="text/javascript" src="js/randomdraw.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
+
             app.initialize();
         </script>
     </body>
