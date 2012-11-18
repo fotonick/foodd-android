@@ -25,22 +25,21 @@ var scoring = {
     },
 
     parseResults: function(results) {
+        var names = [];
         var scores = [];
-        console.log("results");
-        console.log(results);
         for(var i=0;i<results.length;i++) {
             var distance = scoring.getEuclidianDistance(scoring.homeLat, scoring.homeLong,
                                              results[i].location.coordinate.latitude,
                                              results[i].location.coordinate.longitude);
             var rating = results[i].rating;
             if (rating >= scoring.minRating) {
-                console.log("hit")
                 score = (0.5 + rating - scoring.minRating) + (scoring.maxDistance - distance);
-                scores.push([results[i].id, score]);
-                console.log("scores");
-                console.log(scores);
+                names.push(results[i].id);
+                scores.push(score);
             }
         }
+        var output = [names, scores];
+        return output;
     },
 
     // Yelp results
@@ -101,12 +100,13 @@ var scoring = {
             'success': function(data, textStats, XMLHttpRequest) {
               var output = data;
               $("body").append(output);
-              console.log("output.businesses");
-              console.log(output.businesses);
               scoring.results = scoring.results.concat(output.businesses);
-              console.log("scoring.results");
-              console.log(scoring.results);
-              scoring.parseResults(scoring.results);
+              var namesScores = scoring.parseResults(scoring.results);
+              console.log("Contenders are: ");
+              console.log(namesScores[0]);
+              console.log(namesScores[1]);
+              console.log("And the winner is...");
+              console.log(namesScores[0][randomdraw(namesScores[1])]);
             }
         });
         
