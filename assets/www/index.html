@@ -40,8 +40,8 @@
                         <p class="event received">Click the All-Knowing Tomato</p>
                     </div>
                     <div>
-                        <p><a href="#preferences" data-role="button" onclick="app.loadPreferences();">Preferences</a></p>
-                        <p><a href="#settings" data-role="button">Settings</a></p>
+                        <p><a href="#preferences_page" data-role="button">Preferences</a></p>
+                        <p><a href="#settings_page" data-role="button">Settings</a></p>
                         <p><a href="#groups" data-role="button">Manage Groups</a></p>
                         <p><a href="#thanks"data-role="button" data-rel="dialog" data-transition="pop">Thank the 'mato!</a></p>
                     </div>
@@ -50,52 +50,54 @@
         </div><!-- /page one -->
 
         <!-- Start of second page: #preferences-->
-        <div data-role="page" id="preferences" data-theme="a">
+        <div data-role="page" id="preferences_page" data-theme="a">
 
             <div data-role="header">
                 <h1>Preferences</h1>
             </div><!-- /header -->
 
             <div data-role="content" data-theme="a">  
+                <form id="preferences_form">
 
-                <div data-role="fieldcontain">
-                    <label for="slider_explore">Chance of Exploring a New Restaurant:</label>
-                    <input type="range" name="slider" id="slider_explore" value="0" min="0" max="100"  />
-                </div>
+                    <div data-role="fieldcontain">
+                        <label for="slider_explore">Chance of Exploring a New Restaurant:</label>
+                        <input type="range" name="slider_explore" id="slider_explore" value="0" min="0" max="100"  />
+                    </div>
 
-                <div data-role="fieldcontain">
-                    <label for="slider_yelp_rank_min">Minimum Yelp stars:</label>
-                    <input type="range" name="slider" id="slider_yelp_rank_min" value="0" min="0" max="5"  />
-                </div>
+                    <div data-role="fieldcontain">
+                        <label for="slider_yelp_rank_min">Minimum Yelp stars:</label>
+                        <input type="range" name="slider_yelp_rank_min" id="slider_yelp_rank_min" value="0" min="0" max="5"  />
+                    </div>
 
-                <div data-role="fieldcontain">
-                    <label for="slider_personal_rank_min">Minimum Personal Rating:</label>
-                    <input type="range" name="slider" id="slider_personal_rank_min" value="0" min="0" max="5"  />
-                </div>
+                    <div data-role="fieldcontain">
+                        <label for="slider_personal_rank_min">Minimum Personal Rating:</label>
+                        <input type="range" name="slider_personal_rank_min" id="slider_personal_rank_min" value="0" min="0" max="5"  />
+                    </div>
 
-                <div data-role="fieldcontain">
-                    <label for="slider_distance">Maximum Distance (miles):</label>
-                    <input type="range" name="slider" id="slider_distance" value="0" min="0" max="100"  />
-                </div>
+                    <div data-role="fieldcontain">
+                        <label for="slider_distance">Maximum Distance (miles):</label>
+                        <input type="range" name="slider_distance" id="slider_distance" value="0" min="0" max="100"  />
+                    </div>
 
-                <div data-role="fieldcontain">
-                    <label for="slider_min_wait_repeat">Minimum days between repeats:</label>
-                    <input type="range" name="slider" id="slider_min_wait_repeat" value="0" min="0" max="365"  />
-                </div>
+                    <div data-role="fieldcontain">
+                        <label for="slider_min_wait_repeat">Minimum days between repeats:</label>
+                        <input type="range" name="slider_min_wait_repeat" id="slider_min_wait_repeat" value="0" min="0" max="365"  />
+                    </div>
 
-                <div data-role="fieldcontain">
-                    <label for="slider_max_cost">Max dollar signs</label>
-                    <input type="range" name="slider" id="slider_max_cost" value="0" min="0" max="4"  />
-                </div>
+                    <div data-role="fieldcontain">
+                        <label for="slider_max_cost">Max dollar signs</label>
+                        <input type="range" name="slider_max_cost" id="slider_max_cost" value="0" min="0" max="4"  />
+                    </div>
 
-                <p><a href="#one" id="settings_save" data-direction="reverse" data-role="button" data-theme="b" onclick="app.savePreferences();">Back to Our Benevolent Tomato!</a></p>  
+                </form>
+                <p><a href="#one" id="save_preferences" data-direction="reverse" data-role="button" data-theme="b">Back to Our Benevolent Tomato!</a></p>  
             </div><!-- /content -->
         </div><!-- /page two -->
 
 
 
         <!-- Start of second page: #settings -->
-        <div data-role="page" id="settings" data-theme="a">
+        <div data-role="page" id="settings_page" data-theme="a">
 
             <div data-role="header">
                 <h1>Settings</h1>
@@ -135,7 +137,7 @@
                     </div>
                 </form>
 
-                <p><a href="#one" data-direction="reverse" data-role="button" data-theme="b" onclick="window.localStorage.setItem('settings', JSON.stringify(app.formToKeyVal($('#settings_form'))));">Back to Our Benevolent Tomato!</a></p>
+                <p><a href="#one" id="save_settings" data-direction="reverse" data-role="button" data-theme="b">Back to Our Benevolent Tomato!</a></p>
             </div><!-- /content -->
         </div><!-- /page settings-->
 

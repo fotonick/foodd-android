@@ -29,9 +29,13 @@ var app = {
         // bind tomato ready animation
         document.addEventListener('deviceready', this.onDeviceReady, false);
 
-        // bind settings save/load
-        $('#settings').bind('pageinit', function () {app.displaySettings(JSON.parse(window.localStorage.getItem('settings')));});
-        $('#settings_save').bind('click', app.savePreferences)
+        // bind prefs load
+        $('#preferences_page').bind('pageinit', function () {app.displayPreferences(JSON.parse(window.localStorage.getItem('preferences')));});
+        $('#save_preferences').bind('click', function () {window.localStorage.setItem('preferences', JSON.stringify(app.preferencesFormToKeyVal($('#preferences_form'))));});
+
+        // bind settings load
+        $('#settings_page').bind('pageinit', function () {app.displaySettings(JSON.parse(window.localStorage.getItem('settings')));});
+        $('#save_settings').bind('click', function () {window.localStorage.setItem('settings', JSON.stringify(app.settingsFormToKeyVal($('#settings_form'))));});
     },
     // deviceready Event Handler
     //
@@ -52,74 +56,30 @@ var app = {
         console.log('Received Event: ' + id);
     },
 
-    // Preferences
-    savePreferences: function() {
-        // get fields from document
-        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
-        
-        db.transaction(
-            // Callback that executes SQL
-            function (tx) {
-                prefs = [0,  // user_id
-                         $("#slider_distance").val(),
-                         $("#slider_explore").val(),
-                         $("#slider_yelp_rank_min").val(),
-                         $("#slider_personal_rank_min").val(),
-                         $("#slider_max_cost").val(),
-                         $("#slider_min_wait_repeat").val()];
-                console.log(prefs);
-                tx.executeSql('INSERT OR REPLACE INTO user_prefs (user_id, distance, explore, yelp_rank_min, personal_rank_min, max_cost, min_wait_repeat) VALUES (?, ?, ?, ?, ?, ?, ?);', prefs);
-            },
-            // Callback to handle errors
-            function (err) {
-                console.log("Error processing SQL: " + err.code);
-            }
-        )
+    // Preferences display/read
+    displayPreferences: function (prefs) {
+        for (var key in prefs) {
+            $("#slider_" + key).val(prefs[key]).slider("refresh");
+        }
     },
-    loadPreferences: function() {
-        console.log("calling loadPreferences");
-        var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
-
-        user_id = 0;
-        console.log("Fetching preferences for user " + user_id);
-        db.transaction(
-            // Callback that executes SQL
-            function(tx) {
-                tx.executeSql('SELECT * FROM user_prefs WHERE user_id=?', [user_id],
-                    // Callback on success: adjust sliders
-                    function (tx, results) {
-                        console.log("Preferences are:");
-                        prefs = results.rows.item(0);
-                        for (var key in prefs) {
-                            $("#slider_" + key).val(prefs[key]).slider("refresh");
-                            console.log(" " + key + ": " + prefs[key]);
-                        }
-                    },
-                    // Callback to handle errors
-                    function (err) {
-                        console.log("Error in executeSql: " + err.code);
-                    }
-                );
-            },
-            // Callback to handle errors
-            function (err) {
-                console.log("Error processing transaction: " + err.code);
-            }
+    preferencesFormToKeyVal: function (form) {
+        return jQuery.extend.apply(null,
+            form.find('input').map(function() {
+                var elm = $(this);
+                obj = {};
+                obj[elm.attr('name').slice("slider_".length)] = elm.val();
+                return obj;
+            })
         )
     },
 
-    // Settings
+    // Settings display/read
     displaySettings: function (settings) {
-        console.log(settings);
         for (var key in settings) {
-            console.log(" " + key + ": " + settings[key]);
             $("#checkbox_" + key).attr("checked", settings[key]).checkboxradio("refresh");
         }
     },
-    // Need to bind to an appropriate load or ready event: onclick="app.displaySettings(JSON.parse(window.localStorage.getItem('settings')));"
-
-    // Utility
-    formToKeyVal: function (form) {
+    settingsFormToKeyVal: function (form) {
         return jQuery.extend.apply(null,
             form.find('input').map(function() {
                 var elm = $(this);
