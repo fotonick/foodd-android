@@ -20,14 +20,18 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-        app.initPreferences();
     },
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
+        // bind tomato ready animation
         document.addEventListener('deviceready', this.onDeviceReady, false);
+
+        // bind settings save/load
+        $('#settings').bind('pageinit', function () {app.displaySettings(JSON.parse(window.localStorage.getItem('settings')));});
+        $('#settings_save').bind('click', app.savePreferences)
     },
     // deviceready Event Handler
     //
@@ -49,10 +53,6 @@ var app = {
     },
 
     // Preferences
-    initPreferences: function() {
-        console.log("called initSettings");
-        
-    },
     savePreferences: function() {
         // get fields from document
         var db = window.openDatabase("foodd", "1.0", "FoodD DB", 1024 * 1024);
