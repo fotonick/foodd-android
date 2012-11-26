@@ -30,12 +30,12 @@ var app = {
         document.addEventListener('deviceready', this.onDeviceReady, false);
 
         // bind prefs load
-        $('#preferences_page').bind('pageinit', function () {app.displayPreferences(JSON.parse(window.localStorage.getItem('preferences')));});
-        $('#save_preferences').bind('click', function () {window.localStorage.setItem('preferences', JSON.stringify(app.preferencesFormToKeyVal($('#preferences_form'))));});
+        $('#preferences_page').on('pageinit', function () {app.displayPreferences(JSON.parse(window.localStorage.getItem('preferences')));});
+        $('#save_preferences').on('click', function () {window.localStorage.setItem('preferences', JSON.stringify(app.preferencesFormToKeyVal($('#preferences_form'))));});
 
         // bind settings load
-        $('#settings_page').bind('pageinit', function () {app.displaySettings(JSON.parse(window.localStorage.getItem('settings')));});
-        $('#save_settings').bind('click', function () {window.localStorage.setItem('settings', JSON.stringify(app.settingsFormToKeyVal($('#settings_form'))));});
+        $('#settings_page').on('pageinit', function () {app.displaySettings(JSON.parse(window.localStorage.getItem('settings')));});
+        $('#save_settings').on('click', function () {window.localStorage.setItem('settings', JSON.stringify(app.settingsFormToKeyVal($('#settings_form'))));});
     },
     // deviceready Event Handler
     //
